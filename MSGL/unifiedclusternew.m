@@ -1,5 +1,7 @@
 
+% K:要聚类的数据 A:锚点 s:标签 其他:超参
 function [result]=unifiedclusternew(K,A,s,alpha,beta,gamma,nv)
+
 % s is the true class label.
 [~,n]=size(K{1});
 [~,m]=size(A{1});

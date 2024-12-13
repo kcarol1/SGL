@@ -1,9 +1,20 @@
  clear;
 
 %addpath('./datasets');
-load('Caltech101-7.mat');
-x=data;
-Y=labels;
+% load('Caltech101-7.mat');
+load('F:\对比实验\datasets\MUUFL\MUUFLGfportGT.mat')
+load('F:\对比实验\datasets\MUUFL\MUUFLGfportHSI.mat')
+hsi = data;
+hsi = reshape(hsi, [],64);
+hsi = double(hsi);
+load('F:\对比实验\datasets\MUUFL\MUUFLGfportLiDAR_data_first_return.mat')
+lidar = data;
+lidar = reshape(lidar, [], 2);
+lidar = double(lidar);
+x={};
+x{1} = hsi;
+x{2} = lidar;
+Y=double(reshape(gt, [], 1));
 nv=length(x);
 ns=length(unique(Y));
 
