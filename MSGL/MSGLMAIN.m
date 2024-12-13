@@ -17,11 +17,11 @@ gamma=[-5 -4 -3 -2 -1];
 for j=1:length(numanchor)
 %     rand('twister',5489);
     rng(5489,'twister');
-    parfor i=1:nv
-    [~, H{i}] = litekmeans((x{i})',numanchor(j),'MaxIter', 100,'Replicates',10);
-   
-    
-    H{i}=(H{i})';
+    for i=1:nv
+        [~, H{i}] = litekmeans((x{i})',numanchor(j),'MaxIter', 100,'Replicates',10);
+       
+        
+        H{i}=(H{i})';
     end
     
     for i=1:length(alpha)
