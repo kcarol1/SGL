@@ -1,6 +1,6 @@
 
 % K:要聚类的数据 A:锚点 s:标签 其他:超参
-function [result]=unifiedclusternew(K,A,s,alpha,beta,gamma,nv)
+function [result, ca, actual_ids]=unifiedclusternew(K,A,s,alpha,beta,gamma,nv)
 
 % s is the true class label.
 [~,n]=size(K{1});
@@ -58,4 +58,4 @@ end
 rng(5489,'twister');
 actual_ids= litekmeans(U,c,'MaxIter', 100,'Replicates',100);
 
-[result] = ClusteringMeasure( actual_ids,s);
+[result, ca] = ClusteringMeasure(actual_ids,s);

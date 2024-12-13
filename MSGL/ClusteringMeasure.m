@@ -1,4 +1,4 @@
-function [result,confus] = ClusteringMeasure(Y, predY)
+function [result,ca] = ClusteringMeasure(Y, predY)
 % output: ACC, NMI, Purity
 if size(Y,2) ~= 1
     Y = Y';
@@ -60,11 +60,14 @@ ACC = length(find(Y == res))/length(Y);
 % NMI
 MIhat = MutualInfo(Y,res);
 
+% kappa
+kappa = calculateKappa(Y,res);
 
 % result
-result = [ACC MIhat Purity];
+result = [ACC kappa MIhat Purity];
 
-
+% ca
+ca = class_acc(Y,res);
 
 
 
@@ -156,7 +159,7 @@ function [C,T]=hungarian(A)
 % Mathematical Software, 6(1):104-111, 1980.
 
 % v1.0  96-06-14. Niclas Borlin, niclas@cs.umu.se.
-%                 Department of Computing Science, Umeå University,
+%                 Department of Computing Science, Umeï¿½ University,
 %                 Sweden. 
 %                 All standard disclaimers apply.
 

@@ -1,13 +1,13 @@
  clear;
 
-%addpath('./datasets');
+% addpath('../..');
 % load('Caltech101-7.mat');
-load('F:\对比实验\datasets\MUUFL\MUUFLGfportGT.mat')
-load('F:\对比实验\datasets\MUUFL\MUUFLGfportHSI.mat')
+load('../../datasets/MUUFL/MUUFLGfportGT.mat')
+load('../../datasets/MUUFL/MUUFLGfportHSI.mat')
 hsi = data;
 hsi = reshape(hsi, [],64);
 hsi = double(hsi);
-load('F:\对比实验\datasets\MUUFL\MUUFLGfportLiDAR_data_first_return.mat')
+load('../../datasets/MUUFL/MUUFLGfportLiDAR_data_first_return.mat')
 lidar = data;
 lidar = reshape(lidar, [], 2);
 lidar = double(lidar);
@@ -17,7 +17,7 @@ x{2} = lidar;
 Y=double(reshape(gt, [], 1));
 nv=length(x);
 ns=length(unique(Y));
-
+record = RecordResult();
 for i=1:nv
     x{i}=(x{i})';
 end
@@ -28,11 +28,11 @@ gamma=[-5 -4 -3 -2 -1];
 for j=1:length(numanchor)
 %     rand('twister',5489);
     rng(5489,'twister');
-    for i=1:nv
-        [~, H{i}] = litekmeans((x{i})',numanchor(j),'MaxIter', 100,'Replicates',10);
-       
-        
-        H{i}=(H{i})';
+    parfor i=1:nv
+    [~, H{i}] = litekmeans((x{i})',numanchor(j),'MaxIter', 100,'Replicates',10);
+    
+    
+    H{i}=(H{i})';
     end
     
     for i=1:length(alpha)
@@ -40,14 +40,16 @@ for j=1:length(numanchor)
             for p=1:length (gamma)
             fprintf('params:\tnumanchor=%d\t\talpha=%f\tbeta:%d\n',numanchor(j), alpha(i), beta(m));
             tic;
-            [result]=unifiedclusternew(x',H,Y,alpha(i),beta(m),gamma(p),nv);
+            [result, ca, y_pre]=unifiedclusternew(x',H,Y,alpha(i),beta(m),gamma(p),nv);
             t=toc;
-            
-            fprintf('result:\t%12.6f %12.6f %12.6f %12.6f\n',[result t]);
-            dlmwrite('Caltech101-7.txt',[numanchor(j) alpha(i) beta(m) gamma(p) result t],'-append','delimiter','\t','newline','pc');
+            record = record.add_history(struct('acc', result(1), 'kappa', result(2), 'nmi', result(3), 'Purity', result(4), 'time', t, 'ca', ca, 'y_pre', y_pre));
+            fprintf('result:\t%12.6f %12.6f %12.6f %12.6f\n',[result]);
+            % dlmwrite('Caltech101-7.txt',[numanchor(j) alpha(i) beta(m) gamma(p) result t],'-append','delimiter','\t','newline','pc');
             
             
         end
     end
     end
 end
+best = record.best_result('acc');
+disp(best);
