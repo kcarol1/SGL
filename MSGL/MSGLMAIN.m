@@ -53,3 +53,5 @@ for j=1:length(numanchor)
 end
 best = record.best_result('acc');
 disp(best);
+% 将结果保存为mat
+save('result.mat','best')
