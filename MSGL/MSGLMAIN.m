@@ -2,12 +2,24 @@
 
 % addpath('../..');
 % load('Caltech101-7.mat');
-load('..\..\..\datasets\MUUFL\MUUFLGfportGT.mat')
-load('..\..\..\datasets\MUUFL\MUUFLGfportHSI.mat')
+% win
+% load('..\..\..\datasets\MUUFL\MUUFLGfportGT.mat')
+% load('..\..\..\datasets\MUUFL\MUUFLGfportHSI.mat')
+
+% linux
+load('../../datasets/MUUFL/MUUFLGfportGT.mat')
+load('../../datasets/MUUFL/MUUFLGfportHSI.mat')
+
 hsi = data;
 hsi = reshape(hsi, [],64);
 hsi = double(hsi);
-load('..\..\..\datasets\MUUFL\MUUFLGfportLiDAR_data_first_return.mat')
+
+% win
+% load('..\..\..\datasets\MUUFL\MUUFLGfportLiDAR_data_first_return.mat')
+
+% linux
+load('../../datasets/MUUFL/MUUFLGfportLiDAR_data_first_return.mat')
+
 lidar = data;
 lidar = reshape(lidar, [], 2);
 lidar = double(lidar);
