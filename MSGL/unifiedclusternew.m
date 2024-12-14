@@ -57,5 +57,5 @@ for i=1:30
 end
 rng(5489,'twister');
 actual_ids= litekmeans(U,c,'MaxIter', 100,'Replicates',100);
-actual_ids = actual_ids(indx_labeled);
-[result, ca] = ClusteringMeasure(actual_ids,s);
+pre_label = actual_ids(indx_labeled);
+[result, ca] = ClusteringMeasure(s,pre_label);
