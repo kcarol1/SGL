@@ -2,12 +2,12 @@
 
 % addpath('../..');
 % load('Caltech101-7.mat');
-load('../../datasets/MUUFL/MUUFLGfportGT.mat')
-load('../../datasets/MUUFL/MUUFLGfportHSI.mat')
+load('..\..\..\datasets\MUUFL\MUUFLGfportGT.mat')
+load('..\..\..\datasets\MUUFL\MUUFLGfportHSI.mat')
 hsi = data;
 hsi = reshape(hsi, [],64);
 hsi = double(hsi);
-load('../../datasets/MUUFL/MUUFLGfportLiDAR_data_first_return.mat')
+load('..\..\..\datasets\MUUFL\MUUFLGfportLiDAR_data_first_return.mat')
 lidar = data;
 lidar = reshape(lidar, [], 2);
 lidar = double(lidar);
@@ -15,6 +15,11 @@ x={};
 x{1} = hsi;
 x{2} = lidar;
 Y=double(reshape(gt, [], 1));
+
+indx_labeled = find(Y ~= 0);  % 找到非零元素的索引
+Y = Y(indx_labeled); % 提取非零元素
+% class_num = numel(unique(Y)) - 1;  % 计算唯一类别数并减去1
+
 nv=length(x);
 ns=length(unique(Y));
 record = RecordResult();
@@ -40,7 +45,7 @@ for j=1:length(numanchor)
             for p=1:length (gamma)
             fprintf('params:\tnumanchor=%d\t\talpha=%f\tbeta:%d\n',numanchor(j), alpha(i), beta(m));
             tic;
-            [result, ca, y_pre]=unifiedclusternew(x',H,Y,alpha(i),beta(m),gamma(p),nv);
+            [result, ca, y_pre]=unifiedclusternew(x',H,Y,alpha(i),beta(m),gamma(p),nv,indx_labeled);
             t=toc;
             record = record.add_history(struct('acc', result(1), 'kappa', result(2), 'nmi', result(3), 'Purity', result(4), 'time', t, 'ca', ca, 'y_pre', y_pre));
             fprintf('result:\t%12.6f %12.6f %12.6f %12.6f\n',[result]);
