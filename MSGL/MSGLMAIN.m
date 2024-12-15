@@ -7,26 +7,29 @@
 % load('..\..\..\datasets\MUUFL\MUUFLGfportHSI.mat')
 
 % linux
-load('../../datasets/MUUFL/MUUFLGfportGT.mat')
-load('../../datasets/MUUFL/MUUFLGfportHSI.mat')
+load('../../datasets/Trento/Trento-GT.mat')
+load('../../datasets/Trento/Trento-HSI.mat')
 
 hsi = data;
-hsi = reshape(hsi, [],64);
+hsi = reshape(hsi, [],size(hsi,3));
 hsi = double(hsi);
 
 % win
 % load('..\..\..\datasets\MUUFL\MUUFLGfportLiDAR_data_first_return.mat')
 
 % linux
-load('../../datasets/MUUFL/MUUFLGfportLiDAR_data_first_return.mat')
+load('../../datasets/Trento/Trento-Lidar.mat')
 
 lidar = data;
-lidar = reshape(lidar, [], 2);
+lidar = reshape(lidar, [], size(lidar,3));
 lidar = double(lidar);
 x={};
 x{1} = hsi;
 x{2} = lidar;
-Y=double(reshape(gt, [], 1));
+% Trento
+Y=double(reshape(mask_test, [], 1));
+% Y=double(reshape(gt, [], 1));
+
 
 indx_labeled = find(Y ~= 0);  % 找到非零元素的索引
 Y = Y(indx_labeled); % 提取非零元素
