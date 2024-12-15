@@ -26,8 +26,8 @@ lidar = double(lidar);
 x={};
 x{1} = hsi;
 x{2} = lidar;
-% Trento
-Y=double(reshape(mask_test, [], 1));
+
+Y=double(reshape(mask_test, [], 1)); % Trento
 % Y=double(reshape(gt, [], 1));
 
 
