@@ -63,8 +63,12 @@ MIhat = MutualInfo(Y,res);
 % kappa
 kappa = calculateKappa(Y,res);
 
+% ari
+
+ari = adjusted_rand_index(Y, res);
+
 % result
-result = [ACC kappa MIhat Purity];
+result = [ACC kappa MIhat ari Purity];
 
 % ca
 ca = class_acc(Y,res);

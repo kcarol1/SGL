@@ -59,8 +59,8 @@ for j=1:length(numanchor)
             tic;
             [result, ca, y_pre]=unifiedclusternew(x',H,Y,alpha(i),beta(m),gamma(p),nv,indx_labeled);
             t=toc;
-            record = record.add_history(struct('acc', result(1), 'kappa', result(2), 'nmi', result(3), 'Purity', result(4), 'time', t, 'ca', ca, 'y_pre', y_pre));
-            fprintf('result:\t%12.6f %12.6f %12.6f %12.6f\n',[result]);
+            record = record.add_history(struct('acc', result(1), 'kappa', result(2), 'nmi', result(3), 'ari', result(4), 'Purity', result(5),'time', t, 'ca', ca, 'y_pre', y_pre));
+            fprintf('result:\t%12.6f %12.6f %12.6f %12.6f %12.6f\n',[result]);
             % dlmwrite('Caltech101-7.txt',[numanchor(j) alpha(i) beta(m) gamma(p) result t],'-append','delimiter','\t','newline','pc');
             
             
